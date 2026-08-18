@@ -39,7 +39,7 @@ repo root/
 
 ## Validating structure
 
-Run `node .claude/skills/pocketbase-conventions/validate-structure.mjs` after touching `pb_migrations/`, `pb_data/`, the `pocketbase` binary, or `.gitignore` — before considering that change done. It currently checks the three hard rules only: `pb_migrations/` present at the root, and `pb_data/` and the `pocketbase` binary never committed. `pb_hooks/` placement and the `*_POCKETBASE_URL` env var convention aren't checked yet — those rules are still settling; don't treat their absence from the script as license to ignore them.
+Run `node validate-structure.mjs` (in this skill's own directory) after touching `pb_migrations/`, `pb_data/`, the `pocketbase` binary, or `.gitignore` — before considering that change done. It currently checks the three hard rules only: `pb_migrations/` present at the root, and `pb_data/` and the `pocketbase` binary never committed. `pb_hooks/` placement and the `*_POCKETBASE_URL` env var convention aren't checked yet — those rules are still settling; don't treat their absence from the script as license to ignore them.
 
 ## Local dev
 
