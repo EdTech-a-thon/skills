@@ -39,7 +39,20 @@ repo root/
 
 ## Validating structure
 
-Run `node validate-structure.mjs` (in this skill's own directory) after touching `pb_migrations/`, `pb_data/`, the `pocketbase` binary, or `.gitignore` — before considering that change done. It currently checks the three hard rules only: `pb_migrations/` present at the root, and `pb_data/` and the `pocketbase` binary never committed. `pb_hooks/` placement and the `*_POCKETBASE_URL` env var convention aren't checked yet — those rules are still settling; don't treat their absence from the script as license to ignore them.
+After touching `pb_migrations/`, complete both checks before considering the change done:
+
+1. Run `node validate-structure.mjs` from this skill's directory. It checks the three settled structure rules only: `pb_migrations/` present at the root, and `pb_data/` and the `pocketbase` binary never committed.
+2. Apply the complete migration history to a disposable empty database with the platform-pinned local binary:
+
+   ```sh
+   node <installed-skill-dir>/validate-migrations.mjs
+   ```
+
+   Completion means the validator exits successfully after confirming every migration was applied. PocketBase can print a migration error while returning exit code 0, so running the bare `migrate up` command is not an equivalent check. Treat any ordering, schema, or execution error as a blocking migration failure. The validator keeps the working `pb_data/` out of this test.
+
+If the project does not have the pinned `pocketbase` binary, use its `install-pocketbase.sh`; if neither exists, stop and ask how to obtain the platform-pinned version. Do not substitute an arbitrary latest release.
+
+`pb_hooks/` placement and the `*_POCKETBASE_URL` env var convention aren't checked yet — those rules are still settling; don't treat their absence from the structure script as license to ignore them.
 
 ## Local dev
 
